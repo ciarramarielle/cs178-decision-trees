@@ -21,10 +21,11 @@ def plotMaxDepth_16():
     depth = np.zeros(shape = (16,1))
 
     for i in range (0,16):
-      lr = ml.dtree.treeRegress(Xt, Yt, maxDepth = i)
-      train_error[i] = lr.mse(Xt, Yt)
-      valid_error[i] = lr.mse(Xv, Yv)
-      depth[i] = i
+        lr = ml.dtree.treeRegress(Xt, Yt, maxDepth = i)
+        train_error[i] = lr.mse(Xt, Yt)
+        valid_error[i] = lr.mse(Xv, Yv)
+        depth[i] = i
+        print(lr)
 
 
     plt.plot(depth, train_error, 'b', depth, valid_error, 'g')
@@ -56,7 +57,34 @@ def plotMinParent_13():
     plt.show()
 
 
+def errPlotByMinScore(range_min_score):
+    #minParent
+    ertc = []
+    ervc = []
+    minscore = []
+
+    for i in range(0, 1):
+        i+=0.1
+        lr = ml.dtree.treeRegress(Xt, Yt, minScore = i)
+        ertc.append( lr.mse(Xt, Yt))
+        ervc.append( lr.mse(Xv, Yv))
+        minscore.append(i)
+
+    plt.plot(minscore, ertc , 'b', minscore, ervc , 'g')
+    plt.legend(['train', 'validation'])
+
+    plt.xlabel('minParent')
+    plt.ylabel('MSE')
+
+    plt.show()
+
+
+
+
+
 if __name__ == "__main__":
+
+    print("USING MLTOOLS FROM CLASS.")
     print("Exploring maxDepth")
     plotMaxDepth_16()
     #TODO: based on plot/errors, pick a max depth.
@@ -66,4 +94,5 @@ if __name__ == "__main__":
     #TODO: based on plot/errors, pick a minParent
 
     #TODO: Explore minScore
+    errPlotByMinScore(0)
     #TODO: Explore nFeatures
